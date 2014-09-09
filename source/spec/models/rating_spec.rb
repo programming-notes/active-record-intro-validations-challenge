@@ -44,7 +44,7 @@ describe "Rating" do
       expect(rating).to be_invalid
     end
 
-    it "require coolness to be at least 1" do
+    it "requires coolness to be at least 1" do
       rating = Rating.new valid_details.merge(coolness: 0)
       expect(rating).to be_invalid
     end
@@ -54,7 +54,7 @@ describe "Rating" do
       expect(rating).to be_invalid
     end
 
-    it "require cuteness to be at least 1" do
+    it "requires cuteness to be at least 1" do
       rating = Rating.new valid_details.merge(cuteness: 0)
       expect(rating).to be_invalid
     end
