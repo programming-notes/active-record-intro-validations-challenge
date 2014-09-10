@@ -22,14 +22,15 @@ describe "dogs table" do
 
 
   it "has columns of the proper type" do
-    expected_column_types_and_names = { :integer => ["id", "age", "owner_id"],
-                                        :string => ["name", "license", "breed"],
-                                        :datetime => ["created_at", "updated_at"] }
+    expected_column_types_and_names = { :integer => ["id", "age", "owner_id"].sort,
+                                        :string => ["name", "license", "breed"].sort,
+                                        :datetime => ["created_at", "updated_at"].sort }
 
     dogs_table_columns = database_connection.columns(:dogs)
 
     actual_column_types_and_names = dogs_table_columns.each_with_object Hash.new(Array.new) do |column, memo|
                                       memo[column.type] += [column.name]
+                                      memo[column.type].sort!
                                     end
 
     expect(actual_column_types_and_names).to eq expected_column_types_and_names
