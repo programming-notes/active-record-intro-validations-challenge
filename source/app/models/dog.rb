@@ -1,6 +1,9 @@
 class Dog < ActiveRecord::Base
   include USGeography
 
+  has_many :ratings
+  belongs_to :owner, { class_name: "Person" }
+
   # name, license, and owner_id are required
   validates :name, :license, :owner_id, { :presence => true }
 
