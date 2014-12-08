@@ -33,8 +33,8 @@ describe "Person" do
 
       Rating.delete_all
       Rating.create([
-        { coolness: 10, cuteness: 10, dog_id: 1, judge_id: teagan.id },
-        { coolness: 9,  cuteness: 10, dog_id: 2, judge_id: teagan.id }
+        { coolness: 10, cuteness: 10, dog_id: Dog.first.id, judge_id: teagan.id },
+        { coolness: 9,  cuteness: 10, dog_id: Dog.last.id, judge_id: teagan.id }
       ])
     end
 
