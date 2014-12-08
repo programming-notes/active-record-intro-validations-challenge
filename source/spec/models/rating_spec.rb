@@ -76,20 +76,36 @@ describe "Rating" do
   end
 
   describe "validations" do
+    before(:all) do
+      Person.delete_all
+      Person.create(first_name: "Teagan",  last_name: "Hickman")
+
+      teagan = Person.find_by(first_name: "Teagan")
+
+      Dog.delete_all
+
+      Dog.create( { :name     => "Tenley",
+                    :license  => "OH-9384764",
+                    :age      => 1,
+                    :breed    => "Golden Doodle",
+                    :owner_id => teagan.id } )
+    end
+
     before(:each) do
+
       Rating.delete_all
 
       Rating.create( { :coolness => 10,
                        :cuteness => 10,
                        :judge_id => 1,
-                       :dog_id   => 1 } )
+                       :dog_id   => Dog.pluck(:id).first } )
     end
 
     let(:valid_details) do
       { :coolness => 7,
         :cuteness => 5,
-        :judge_id => 2,
-        :dog_id   => 3 }
+        :judge_id => Person.pluck(:id).first,
+        :dog_id   => Dog.pluck(:id).first }
     end
 
     it "requires coolness" do
@@ -102,14 +118,32 @@ describe "Rating" do
       expect(rating).to be_invalid
     end
 
-    it "requires judge_id" do
-      rating = Rating.new valid_details.except(:judge_id)
-      expect(rating).to be_invalid
+    describe "requiring a judge" do
+      it "is invalid without a judge_id" do
+        rating = Rating.new valid_details.except(:judge_id)
+        expect(rating).to be_invalid
+      end
+
+      it "is invalid if judge_id doesn't point to an object" do
+        nonexistant_judge_id = Person.pluck(:id).max + 1
+
+        rating = Rating.new valid_details.merge(judge_id: nonexistant_judge_id)
+        expect(rating).to be_invalid
+      end
     end
 
-    it "requires dog_id" do
-      rating = Rating.new valid_details.except(:dog_id)
-      expect(rating).to be_invalid
+    describe "requiring a dog" do
+      it "is invalid without a dog_id" do
+        rating = Rating.new valid_details.except(:dog_id)
+        expect(rating).to be_invalid
+      end
+
+      it "is invalid if dog_id doesn't point to an object" do
+        nonexistant_dog_id = Dog.pluck(:id).max + 1
+
+        rating = Rating.new valid_details.merge(dog_id: nonexistant_dog_id)
+        expect(rating).to be_invalid
+      end
     end
 
     it "requires coolness to be at least 1" do
