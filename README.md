@@ -10,6 +10,9 @@ Active Record allows us to perform similar validations within our models.  For e
 class Dog < ActiveRecord::Base
   include USGeography
 
+  has_many :ratings
+  belongs_to :owner, { class_name: "Person" }
+
   # name, license, and owner_id are required
   validates :name, :license, :owner_id, { :presence => true }
 
@@ -46,7 +49,7 @@ We will once again work with a pre-written `Dog` class.  The class is defined in
 
 ### `validates`
 
-Active Record will allow us to validate the value of an object's attributes.  Given an instance of `Dog`, I can require that its `name`, `age`, etc. meet certain conditions.  These validations are defined by the `validates` method and passing it the names of attributes as arguments.  For example, in our `Dog` class we'll see `validates :name, :license, :owner_id ...` and `validates :license ...` among other validations  This is saying that I want to first validate a `Dog` instances `name`, `license`, and `ownder_id` attributes in one way.  Then, I'm going to validate `license` again in another way.  
+Active Record will allow us to validate the value of an object's attributes.  Given an instance of `Dog`, I can require that its `name`, `age`, etc. meet certain conditions.  These validations are defined by the `validates` method and passing it the names of attributes as arguments.  For example, in our `Dog` class we'll see `validates :name, :license, :owner_id ...` and `validates :license ...` among other validations  This is saying that I want to first validate a `Dog` instances `name`, `license`, and `ownder_id` attributes in one way.  Then, I'm going to validate `license` again in another way.
 
 ### Validation Helpers
 
@@ -97,7 +100,7 @@ From within the console run ...
 -  `new_dog.errors`
 
   This returns the errors that have been given to our `new_dog` object.
-  
+
 -  `new_dog.errors.count`
 
   This will tell us how many errors our `new_dog` object has:  5.
@@ -105,7 +108,7 @@ From within the console run ...
 -  `new_dog.errors.messages`
 
   This returns a hash containing keys for any attribute that failed a validation.  The value of each key describes the nature of the failure—some are more descriptive than others.
-  
+
   We can see that the `name` and `owner_id` attributes of `new_dog` each failed one validation.  `license` failed three.
 
 -  `new_dog.errors.full_messages`
@@ -115,7 +118,7 @@ From within the console run ...
 -  `new_dog.save`
 
   If we try to save `new_dog`, we see that `#save` returns false.  Because of the errors on `new_dog`, Active Record doesn't even try to insert the record.
-  
+
 - `new_dog.name = "Toot"`
 
   Previously, we saw the full error message that `"Name can't be blank"`.  So, we're assigning it a value.
