@@ -18,7 +18,7 @@ describe "Rating" do
                           :license  => "OH-9384764",
                           :age      => 1,
                           :breed    => "Golden Doodle",
-                          :owner_id => 1 } )
+                          :owner_id => teagan.id } )
 
       Rating.delete_all
       Rating.create({ coolness: 5, cuteness: 6, judge_id: teagan.id, dog_id: dog.id })
