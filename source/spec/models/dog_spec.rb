@@ -88,13 +88,18 @@ describe "Dog" do
   describe "validations" do
 
     before(:each) do
+      Person.delete_all
+      Person.create(first_name: "Teagan",  last_name: "Hickman")
+
+      teagan = Person.find_by(first_name: "Teagan")
+
       Dog.delete_all
 
       Dog.create( { :name     => "Tenley",
                     :license  => "OH-9384764",
                     :age      => 1,
                     :breed    => "Golden Doodle",
-                    :owner_id => 1 } )
+                    :owner_id => teagan.id } )
     end
 
     let(:valid_details) do
@@ -102,7 +107,7 @@ describe "Dog" do
         :license  => "MI-1234567",
         :age      => 3,
         :breed    => "Beagle",
-        :owner_id => 1 }
+        :owner_id => Person.pluck(:id).first }
     end
 
     it "requires a name" do
@@ -115,9 +120,18 @@ describe "Dog" do
       expect(dog).to be_invalid
     end
 
-    it "requires an owner_id" do
-      dog = Dog.new valid_details.except(:owner_id)
-      expect(dog).to be_invalid
+    describe "requiring an owner" do
+      it "is invalid without an owner_id" do
+        dog = Dog.new valid_details.except(:owner_id)
+        expect(dog).to be_invalid
+      end
+
+      it "is invalid if the owner_id points to a record that doesn't exist" do
+        id_of_nonexistant_person = Person.pluck(:id).max + 1
+
+        dog = Dog.new valid_details.merge(owner_id: id_of_nonexistant_person)
+        expect(dog).to be_invalid
+      end
     end
 
     it "requires a unique license" do
