@@ -13,8 +13,11 @@ class Dog < ActiveRecord::Base
   has_many :ratings
   belongs_to :owner, { class_name: "Person" }
 
-  # name, license, and owner_id are required
-  validates :name, :license, :owner_id, { :presence => true }
+  # owner must point to an owner object (Person object)
+  validates :owner, { :presence => true }
+
+  # name and license are required
+  validates :name, :license, { :presence => true }
 
   # license must be unique for every dog
   validates :license, { :uniqueness => true }
@@ -26,10 +29,9 @@ class Dog < ActiveRecord::Base
   validates :age, { :numericality => { greater_than_or_equal_to: 0 },
                     :allow_blank  => true }
 
-  # custom validation for license
-  validate :license_from_us_state
+  validate :license_from_valid_state
 
-  def license_from_us_state
+  def license_from_valid_state
     unless self.license.instance_of? String
       errors.add :license, "must be a string"
       return
