@@ -1,8 +1,14 @@
 class Dog < ActiveRecord::Base
   include USGeography
 
-  # name, license, and owner_id are required
-  validates :name, :license, :owner_id, { :presence => true }
+  has_many :ratings
+  belongs_to :owner, { class_name: "Person" }
+
+  # owner must point to an owner object (Person object)
+  validates :owner, { :presence => true }
+
+  # name and license are required
+  validates :name, :license, { :presence => true }
 
   # license must be unique for every dog
   validates :license, { :uniqueness => true }
