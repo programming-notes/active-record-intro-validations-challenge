@@ -97,7 +97,7 @@ describe "Rating" do
 
       Rating.create( { :coolness => 10,
                        :cuteness => 10,
-                       :judge_id => 1,
+                       :judge_id => Person.pluck(:id).first,
                        :dog_id   => Dog.pluck(:id).first } )
     end
 
