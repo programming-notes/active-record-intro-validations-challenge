@@ -2,9 +2,13 @@
 
 ## Summary
 
-In this challenge, we'll be working with Active Record validations.  When we defined database tables in SQL, we might have added a constraint to a column like `NOT NULL`, meaning that a value for column must be present.  Or, we might have specified a character limit some fields:  `VARCHAR(64)`.
+In this challenge, we'll be working with Active Record validations.  When we defined database tables in SQL or our migrations, we might have added a constraint to a column like `NOT NULL`, meaning that a value for column must be present.  Or, we might have specified a character limit some fields:  `VARCHAR(64)`.
 
-Active Record allows us to perform similar validations within our models.  For example, when we try to save a new record to the database, Active Record will validate the object before attempting to save it.  If everything checks out, Active Record will run the SQL `INSERT` query.  If there's a problem with any of our object's attributes, Active Record will not run the SQL query.
+These are called *constraints* and they guard against bad data getting into our database.  They are limited, however, because a database can only do limited testing against a datum. It can't do Regex matches or association testing.  Therefore you should **augment** your constraints with Active Record validations.
+
+**YOU SHOULD USE ===> BOTH <=== CONSTRAINTS AND VALIDATIONS**
+
+For example, when we try to save a new record to the database, Active Record will validate the object before attempting to save it.  If everything checks out, Active Record will run the SQL `INSERT` query.  If there's a problem with any of our object's attributes, Active Record will not run the SQL query.
 
 ```ruby
 class Dog < ActiveRecord::Base
