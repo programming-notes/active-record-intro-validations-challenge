@@ -87,8 +87,6 @@ We are going to work in the console to see how these validations work.  As alway
 
 3. Use the provided Rake task to migrate the database.
 
-4. Use the provided Rake task to seed the database.  This will seed the `dogs` table with three records.
-
 ### Release 0: Exploring Validations and Errors
 
 Use the provided Rake task to open the console:  `bundle exec rake console`.
