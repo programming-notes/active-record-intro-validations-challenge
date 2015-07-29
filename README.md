@@ -91,52 +91,39 @@ We're going to work with our `Dog` class from within the Rake console.  Let's be
 
 
 ### Release 0: Exploring Validations and Errors
+```ruby
+new_dog = Dog.new
+# => #<Dog id: nil, name: nil, license: nil, age: nil, owner_id: nil, created_at: nil, updated_at: nil, breed: nil>
+new_dog.valid?
+# => false
+new_dog.errors
+# => => #<ActiveModel::Errors:0x007facda5b2f00 @base=#<Dog id: nil, name: nil, license: nil, age: nil, owner_id: nil, created_at: nil, updated_at: nil, breed: nil>, @messages={:owner=>["can't be blank"], :name=>["can't be blank"], :license=>["can't be blank", "is invalid", "must be a string"]}>
+new_dog.errors.count
+# => 5
+new_dog.errors.messages
+# => {:owner=>["can't be blank"], :name=>["can't be blank"], :license=>["can't be blank", "is invalid", "must be a string"]}
+new_dog.errors.full_messages
+# => ["Owner can't be blank", "Name can't be blank", "License can't be blank", "License is invalid", "License must be a string"]
+new_dog.save
+# => false
+new_dog.name = "Toot"
+# => "Toot"
+new_dog.valid?
+# => false
+new_dog.errors.count
+# => 4
+```
+*Figure 3*.  Exploring errors from failed validations.
 
-Use the provided Rake task to open the console:  `bundle exec rake console`.
+In Figure 3 we create a new dog with all attributes set to 'nil', assigning the new dog to the variable `new_dog`.  We proceed to explore the validations that we wrote for the dog class, beginning with the question of whether or not our dog is valid.  Calling `#valid?` on `new_dog` will perform all the validations and then return `true` if all the validations pass or `false` if the object has any errors.  In this case we get `false`.
 
-From within the console run ...
+We know that our dog is not valid, so we take a look at the errors that have been given to our `new_dog` object.  We then see that our dog has five errors.  In order to see what the errors are, we ask for the error messages.  This returns a hash containing keys for any attribute that failed a validation.  The value of each key describes the nature of the failure—some are more descriptive than others.  We can see that the `name` and `owner_id` attributes of `new_dog` each failed one validation.  `license` failed three.
 
--  `new_dog = Dog.new`
+If we prefer an array of error messages written as strings, we can call for the full messages.  This can be handy when we want to explain to users why something failed (e.g., the user couldn't register for a website because a username has already been taken).
 
-  This creates an instance of `Dog`.  All of its attributes are set to `nil`.
+If we try to save `new_dog`, we see that `#save` returns false.  Because of the errors on our dog, Active Record doesn't even try to insert the record.
 
--  `new_dog.valid?`
-
-  Calling `#valid?` on `new_dog` will perfom all the validations and then return `true` if all the validations pass or `false` if the object has any errors.  In this case we get `false`.
-
--  `new_dog.errors`
-
-  This returns the errors that have been given to our `new_dog` object.
-
--  `new_dog.errors.count`
-
-  This will tell us how many errors our `new_dog` object has:  5.
-
--  `new_dog.errors.messages`
-
-  This returns a hash containing keys for any attribute that failed a validation.  The value of each key describes the nature of the failure—some are more descriptive than others.
-
-  We can see that the `name` and `owner_id` attributes of `new_dog` each failed one validation.  `license` failed three.
-
--  `new_dog.errors.full_messages`
-
-  If we prefer an array of error messages written as strings, we can call for the full messages.  This can be handy when we want to explain to users why something failed (e.g., the user couldn't register for a website because username has already been taken).
-
--  `new_dog.save`
-
-  If we try to save `new_dog`, we see that `#save` returns false.  Because of the errors on `new_dog`, Active Record doesn't even try to insert the record.
-
-- `new_dog.name = "Toot"`
-
-  Previously, we saw the full error message that `"Name can't be blank"`.  So, we're assigning it a value.
-
--  `new_dog.valid?`
-
-  We've only fixed one of `new_dogs` validation problems, so the object is still invalid.
-
-- `new_dog.errors.count`
-
-  Now, however, the object only has four errors, not the five that it had previously.
+After the failed save, we begin to work through the error to create a valid dog that we can save.  Previously, we saw the full error message that `"Name can't be blank"`.  So, we name our dog Toot.  We've only fixed one of our dog's validation problems, so the object is still invalid.  Now, however, the object only has four errors, not the five that it had previously.
 
 Continue updating the attributes of `new_dog` until `new_dog.save` returns `true`.  Then exit the console.
 
