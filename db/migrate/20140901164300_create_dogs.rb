@@ -7,7 +7,7 @@ class CreateDogs < ActiveRecord::Migration
       t.integer  :weight
       t.integer  :owner_id
 
-      t.timestamps
+      t.timestamps(null: false)
     end
   end
 end

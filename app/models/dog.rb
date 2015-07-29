@@ -1,8 +1,8 @@
 class Dog < ActiveRecord::Base
   include USGeography
 
-  has_many :ratings
   belongs_to :owner, { class_name: "Person" }
+  has_many :ratings
 
   # owner must point to an owner object (Person object)
   validates :owner, { :presence => true }
@@ -33,4 +33,5 @@ class Dog < ActiveRecord::Base
       errors.add :license, "must be from a valid US state"
     end
   end
+
 end
