@@ -1,14 +1,11 @@
 # Active Record Intro:  Validations
 
 ## Summary
+In this challenge, we'll be working with Active Record validations.  When we defined database tables in SQL or our migrations, we might have added a constraint to a column like `NOT NULL`, meaning that a value for the column must be present.  Or, we might have specified a character limit for some fields—for example, `VARCHAR(64)`.  These are called *constraints* and they guard against bad data getting into our database.
 
-In this challenge, we'll be working with Active Record validations.  When we defined database tables in SQL or our migrations, we might have added a constraint to a column like `NOT NULL`, meaning that a value for column must be present.  Or, we might have specified a character limit some fields:  `VARCHAR(64)`.
+Database constraints are a necessary part of keeping our databases clear.  However, they are not a failsafe because a database can only do limited testing against a datum. It can't do regular expression matching or association testing.  Therefore we should augment your constraints at the database layer with Active Record validations at the application layer.  In short, we should use both constraints and validations to protect our databases.
 
-These are called *constraints* and they guard against bad data getting into our database.  They are limited, however, because a database can only do limited testing against a datum. It can't do Regex matches or association testing.  Therefore you should **augment** your constraints with Active Record validations.
-
-**YOU SHOULD USE ===> BOTH <=== CONSTRAINTS AND VALIDATIONS**
-
-For example, when we try to save a new record to the database, Active Record will validate the object before attempting to save it.  If everything checks out, Active Record will run the SQL `INSERT` query.  If there's a problem with any of our object's attributes, Active Record will not run the SQL query.
+How do Active Record validations help protect our database?  When we attempt to save a new record to the database, Active Record will validate the object before attempting to save it.  If everything checks out, Active Record will run the SQL `INSERT` query.  If there's a problem any our object (e.g., it's missing a required attribute), Active Record will not run the SQL query, and we'll never even attempt to write to the database.
 
 ```ruby
 class Dog < ActiveRecord::Base
@@ -17,7 +14,7 @@ class Dog < ActiveRecord::Base
   has_many :ratings
   belongs_to :owner, { class_name: "Person" }
 
-  # owner must point to an owner object (Person object)
+  # owner must point to a record that actually exists (Person object)
   validates :owner, { :presence => true }
 
   # name and license are required
@@ -51,27 +48,27 @@ end
 
 *Figure 1.*  Code for `Dog` class.
 
-We will once again work with a pre-written `Dog` class.  The class is defined in the file `app/models/dog.rb`, whose code is shown in Figure 1; take a minute to look over the supplied validations.
+In this challenge, we'll continue to work with the `Dog`, `Rating`, and `Person` classes that we've seen in the other Active Record Intro challenges.  We'll be adding validations to the classes to protect our database.  The `Dog` class that we'll be working with has had a number of validations added to it (see Figure 1).  These validations provide an example for some of the types of validations that we can write and also a look at the syntax.
 
-### `validates`
 
-Active Record will allow us to validate the value of an object's attributes.  Given an instance of `Dog`, I can require that its `name`, `age`, etc. meet certain conditions.  These validations are defined by the `validates` method and passing it the names of attributes as arguments.  For example, in our `Dog` class we'll see `validates :name, :license, :owner_id ...` and `validates :license ...` among other validations  This is saying that I want to first validate a `Dog` instances `name`, `license`, and `ownder_id` attributes in one way.  Then, I'm going to validate `license` again in another way.
+### The `.validates` Method
+Active Record will allow us to validate an object's attributes.  Given a dog, we can require that its `name`, `age`, etc. meet certain conditions.  These validations are defined by the `.validates` method and passing in the names of attributes as arguments.  For example, in our `Dog` class we'll see that we're validating the name, license, age, and owner.
+
 
 ### Validation Helpers
-
 How do we describe what a valid attribute looks like?  Active Record provides a number of [validation helpers](http://guides.rubyonrails.org/active_record_validations.html#validation-helpers).  These are provided for common types of validations.  We can see some of these in the code for our `Dog` class.
 
-After passing in the names of the attributes that we want to validate, we need to specify options for the validation.  For example, `validates :license, { uniqueness: true }` if we only want unique values for `license` in the database or `validates :name { presence: true }` if we want to prevent `NULL` values for `name` from being saved to the database.
+After passing in the names of the attributes that we want to validate, we need to specify options for the validation.  For example, we specify that we only want unique values for license in the database—two dogs can't have the same license.  And we prevent `NULL` values for `name` from being saved to the database, by validating the presence of the name attribute.  These are just a couple of the validation helpers that Active Record provides.  Which other helpers are we using in our `Dog` class?
+
 
 ### Custom Validation Methods
-
 In our `Dog` class, we have a method `license_from_us_state`.  This is a method written to perform a custom validation.  We want to be sure that any dog's license begins with the abbreviation of a valid US state.
 
-Just as we had to set up our `Dog` class to perform validations on attributes, we have to also set up performing custom validations.  Instead of the `validates` method, we'll use the `validate` method and pass it the name of the custom validation method:  `validate :license_from_us_state`
+Just as we had to set up our `Dog` class to perform validations on attributes, we have to also set up performing custom validations.  Instead of the `.validates` method, we'll use the `.validate` method and pass in the name of the custom validation method:  `:license_from_valid_state`.
+
 
 ### Errors
-
-Active Record uses errors to determine whether or not an object is valid.  For each validation check, if the validation fails, a new error is added to the object's errors collection.  After validations are run, if an object has no errors, then its valid.  If it has an error, the object is invalid.
+Active Record uses errors to determine whether or not an object is valid.  For each validation check, if the validation fails, a new error is added to the object's errors collection.  After validations are run, if an object has no errors, then it's valid.  If it has an error, the object is invalid.
 
 That is why our custom validation method calls `errors.add` under certain conditions.  That's our way of specifying that this custom validation has failed.  When we call `#add` on an object's errors, we pass in the name of the attribute that is invalid and a message describe the failure (e.g., `errors.add :license, "must be from a valid US state"`).
 
