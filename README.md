@@ -127,8 +127,11 @@ After the failed save, we begin to work through the error to create a valid dog 
 
 Continue updating the attributes of `new_dog` until `new_dog.save` returns `true`.  Then exit the console.
 
-### Release 2: Write Validations for `Rating` and `Person`
 
-Tests have been written to describe the validations that we want for our models.  Take a look at the tests for the `Dog` class's validations in the file `source/spec/models/dog_spec.rb`.  The code provided in the `Dog` class passes these tests.
+### Release 1: Write Validations for Ratings and People
+```
+$ bundle exec rspec --example "validations"
+```
+*Figure 4*.  Running just the tests within the "validations" example groups.
 
-Tests describing the validations we want for the `Rating` and `Person` classes have also been written.  You should not need to write any custom validation methods; the validation helpers provide the functionality required. Exact examples have not been provided in the `Dog` class for how to pass all of these tests.  You will need to explore the RailsGuides or try a Google search.  Write the validations needed to pass the provided tests before submitting this challenge.
+Now we'll write some validations of our own.  Tests have been written to describe the validations that we want for our models; they are organized within `"validations"` example groups (see Figure 4).  Some of them will be similar to those we've seen in our `Dog` class.  Others will require us to find additional validation helpers.  We should not need to write any custom validation methods; the validation helpers provide the functionality required.  We'll just need to explore the [RailsGuides](http://guides.rubyonrails.org/active_record_validations.html) or try a Google search to find out what's available and how to use them.
