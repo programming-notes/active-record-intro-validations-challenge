@@ -74,15 +74,21 @@ That is why our custom validation method calls `errors.add` under certain condit
 
 We are going to work in the console to see how these validations work.  As always, you're encouraged to read the [RailsGuides](http://guides.rubyonrails.org/active_record_validations.html) for a more comprehensive explanation.
 
+
 ## Releases
+### Pre-release: Setup
+```
+$ bundle install
+$ bundle exec rake db:create
+$ bundle exec rake db:migrate
+$ bundle exec rake db:seed
+```
+*Figure 2*.  Setting up and seeding the database.
 
-### Pre-release: Create, Migrate, and Seed the Database
+Before we begin, we need to create, migrate, and seed our database.  We'll seed our database with records for all three models:  `Dog`, `Rating`, and `Person`.  All the files necessary for this are provided:  the migrations and the seeds file.  We simply need to run the Rake tasks (see Figure 2).
 
-1. Run Bundler to ensure that the proper gems have been installed.
+We're going to work with our `Dog` class from within the Rake console.  Let's begin by opening the console.  Once it's open, we can begin interacting with our models.  As we work through each release, we should execute the provided example code ourselves and look at the return values.
 
-2. Use the provided Rake task to create the database.
-
-3. Use the provided Rake task to migrate the database.
 
 ### Release 0: Exploring Validations and Errors
 
