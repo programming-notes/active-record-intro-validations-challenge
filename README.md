@@ -135,3 +135,9 @@ $ bundle exec rspec --example "validations"
 *Figure 4*.  Running just the tests within the "validations" example groups.
 
 Now we'll write some validations of our own.  Tests have been written to describe the validations that we want for our models; they are organized within `"validations"` example groups (see Figure 4).  Some of them will be similar to those we've seen in our `Dog` class.  Others will require us to find additional validation helpers.  We should not need to write any custom validation methods; the validation helpers provide the functionality required.  We'll just need to explore the [RailsGuides](http://guides.rubyonrails.org/active_record_validations.html) or try a Google search to find out what's available and how to use them.
+
+
+## Conclusion
+Validations are an important part of keeping our databases clean.  They prevent even attempting to write to our database, if we know that our data is bad.  Combined with database constraints, they provide good protection for our databases.
+
+In addition, the Active Record validations generally provide useful error messages when an object is invalid.  What was a user unable to register for our site?  Was the username taken?  Was the e-mail address formatted incorrectly?  We can employ the errors to provide users with feedback on what went wrong, so they can make corrections and use our applications more effectively.
