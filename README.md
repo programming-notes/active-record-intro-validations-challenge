@@ -3,7 +3,7 @@
 ## Summary
 In this challenge, we'll be working with Active Record validations.  When we defined database tables in SQL or our migrations, we might have added a constraint to a column like `NOT NULL`, meaning that a value for the column must be present.  Or, we might have specified a character limit for some fields—for example, `VARCHAR(64)`.  These are called *constraints* and they guard against bad data getting into our database.
 
-Database constraints are a necessary part of keeping our databases clear.  However, they are not a failsafe because a database can only do limited testing against a datum. It can't do regular expression matching or association testing.  Therefore we should augment your constraints at the database layer with Active Record validations at the application layer.  In short, we should use both constraints and validations to protect our databases.
+Database constraints are a necessary part of keeping our databases clean.  However, they are not a failsafe because a database can only do limited testing against a datum. It can't do regular expression matching or association testing.  Therefore we should augment your constraints at the database layer with Active Record validations at the application layer.  In short, we should use both constraints and validations to protect our databases.
 
 How do Active Record validations help protect our database?  When we attempt to save a new record to the database, Active Record will validate the object before attempting to save it.  If everything checks out, Active Record will run the SQL `INSERT` query.  If there's a problem any our object (e.g., it's missing a required attribute), Active Record will not run the SQL query, and we'll never even attempt to write to the database.
 
