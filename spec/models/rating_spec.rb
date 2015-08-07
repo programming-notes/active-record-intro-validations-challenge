@@ -143,7 +143,7 @@ describe Rating do
         dog_details_with_repeat_judge_dog_pair = { cuteness: 10, coolness: 10, judge_id: existing_rating.judge_id, dog_id: existing_rating.dog_id }
 
         same_judge_and_dog_rating = Rating.new dog_details_with_repeat_judge_dog_pair
-        expect(rating).to be_invalid
+        expect(same_judge_and_dog_rating).to be_invalid
       end
     end
   end
