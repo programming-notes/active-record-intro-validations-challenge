@@ -58,7 +58,7 @@ Active Record will allow us to validate an object's attributes.  Given a dog, we
 ### Validation Helpers
 How do we describe what a valid attribute looks like?  Active Record provides a number of [validation helpers](http://guides.rubyonrails.org/active_record_validations.html#validation-helpers).  These are provided for common types of validations.  We can see some of these in the code for our `Dog` class.
 
-After passing in the names of the attributes that we want to validate, we need to specify options for the validation.  For example, we specify that we only want unique values for license in the database—two dogs can't have the same license.  And we prevent `NULL` values for `name` from being saved to the database, by validating the presence of the name attribute.  These are just a couple of the validation helpers that Active Record provides.  Which other helpers are we using in our `Dog` class?
+After passing in the names of the attributes that we want to validate, we need to specify options for the validation.  For example, we specify that we only want unique values for licenses in the database—two dogs can't have the same license.  And we prevent `NULL` values for `name` from being saved to the database, by validating the presence of the name attribute.  These are just a couple of the validation helpers that Active Record provides.  Which other helpers are we using in our `Dog` class?
 
 
 ### Custom Validation Methods
@@ -140,4 +140,4 @@ Now we'll write some validations of our own.  Tests have been written to describ
 ## Conclusion
 Validations are an important part of keeping our databases clean.  They prevent even attempting to write to our database, if we know that our data is bad.  Combined with database constraints, they provide good protection for our databases.
 
-In addition, the Active Record validations generally provide useful error messages when an object is invalid.  What was a user unable to register for our site?  Was the username taken?  Was the e-mail address formatted incorrectly?  We can employ the errors to provide users with feedback on what went wrong, so they can make corrections and use our applications more effectively.
+In addition, the Active Record validations generally provide useful error messages when an object is invalid.  Why was a user unable to register for our site?  Was the username taken?  Was the e-mail address formatted incorrectly?  We can employ the errors to provide users with feedback on what went wrong, so they can make corrections and use our applications more effectively.
