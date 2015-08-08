@@ -132,7 +132,7 @@ describe Rating do
 
       it 'a dog can be rated by different judges' do
         Rating.create!(valid_details)
-        new_judge = Person.new(first_name: 'Ramlah', last_name: 'Winthrop')
+        new_judge = Person.create!(first_name: 'Ramlah', last_name: 'Winthrop')
 
         same_dog_different_judge_rating = Rating.new valid_details.merge(judge_id: new_judge.id)
         expect(same_dog_different_judge_rating).to be_valid
@@ -143,7 +143,7 @@ describe Rating do
         dog_details_with_repeat_judge_dog_pair = { cuteness: 10, coolness: 10, judge_id: existing_rating.judge_id, dog_id: existing_rating.dog_id }
 
         same_judge_and_dog_rating = Rating.new dog_details_with_repeat_judge_dog_pair
-        expect(rating).to be_invalid
+        expect(same_judge_and_dog_rating).to be_invalid
       end
     end
   end
